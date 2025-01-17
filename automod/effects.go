@@ -263,7 +263,7 @@ func (kick *KickUserEffect) UserSettings() []*SettingDef {
 func (kick *KickUserEffect) Apply(ctxData *TriggeredRuleData, settings interface{}) error {
 	settingsCast := settings.(*KickUserEffectData)
 
-	reason := "Automoderator:\n"
+	reason := ""
 	if settingsCast.CustomReason != "" {
 		reason += settingsCast.CustomReason
 	} else {
@@ -333,7 +333,7 @@ func (ban *BanUserEffect) UserSettings() []*SettingDef {
 func (ban *BanUserEffect) Apply(ctxData *TriggeredRuleData, settings interface{}) error {
 	settingsCast := settings.(*BanUserEffectData)
 
-	reason := "Automoderator:\n"
+	reason := ""
 	if settingsCast.CustomReason != "" {
 		reason += settingsCast.CustomReason
 	} else {
@@ -396,7 +396,7 @@ func (mute *MuteUserEffect) Description() (description string) {
 func (mute *MuteUserEffect) Apply(ctxData *TriggeredRuleData, settings interface{}) error {
 	settingsCast := settings.(*MuteUserEffectData)
 
-	reason := "Automoderator:\n"
+	reason := ""
 	if settingsCast.CustomReason != "" {
 		reason += settingsCast.CustomReason
 	} else {
@@ -465,7 +465,7 @@ func (timeout *TimeoutUserEffect) Apply(ctxData *TriggeredRuleData, settings int
 
 	settingsCast := settings.(*TimeoutUserEffectData)
 
-	reason := "Automoderator:\n"
+	reason := ""
 	if settingsCast.CustomReason != "" {
 		reason += settingsCast.CustomReason
 	} else {
@@ -520,7 +520,7 @@ func (warn *WarnUserEffect) Description() (description string) {
 func (warn *WarnUserEffect) Apply(ctxData *TriggeredRuleData, settings interface{}) error {
 	settingsCast := settings.(*WarnUserEffectData)
 
-	reason := "Automoderator:\n"
+	reason := ""
 	if settingsCast.CustomReason != "" {
 		reason += settingsCast.CustomReason
 	} else {
@@ -846,7 +846,7 @@ func (send *SendChannelMessageEffect) Apply(ctxData *TriggeredRuleData, settings
 		}
 	}
 
-	msgSend.Content += "Automoderator:\n"
+	msgSend.Content += ""
 	if settingsCast.CustomReason != "" {
 		msgSend.Content += settingsCast.CustomReason
 	} else {
@@ -879,7 +879,7 @@ func (send *SendChannelMessageEffect) MergeDuplicates(data []interface{}) interf
 
 type SendModeratorAlertMessageData struct {
 	CustomMessage string `valid:",0,280,trimspace"`
-	LogChannel   int64
+	LogChannel    int64
 }
 
 type SendModeratorAlertMessageEffect struct{}
@@ -936,7 +936,7 @@ func (send *SendModeratorAlertMessageEffect) Apply(ctxData *TriggeredRuleData, s
 	if ctxData.CS != nil {
 		msgSend.Content = fmt.Sprintf("Automoderator alert triggered in <#%d>:\n", ctxData.CS.ID)
 	} else {
-		msgSend.Content = "Automoderator alert:\n"
+		msgSend.Content = "Automoderator alert: "
 	}
 
 	if settingsCast.CustomMessage != "" {
@@ -948,7 +948,7 @@ func (send *SendModeratorAlertMessageEffect) Apply(ctxData *TriggeredRuleData, s
 
 	msgEmbed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{
-			Name: fmt.Sprintf("%s (ID: %d)", ctxData.MS.User.Username, ctxData.MS.User.ID),
+			Name:    fmt.Sprintf("%s (ID: %d)", ctxData.MS.User.Username, ctxData.MS.User.ID),
 			IconURL: ctxData.MS.User.AvatarURL("64"),
 		},
 		Footer: &discordgo.MessageEmbedFooter{
@@ -957,7 +957,7 @@ func (send *SendModeratorAlertMessageEffect) Apply(ctxData *TriggeredRuleData, s
 	}
 
 	msgEmbed.Fields = []*discordgo.MessageEmbedField{{
-		Name: "____",
+		Name:  "____",
 		Value: ctxData.MS.User.Mention(),
 	}}
 
